@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}RTS COSMETIC | 화장품 OEM·ODM{% endblock %}</title>
 <meta name="description" content="알티에스코스메틱 - MOQ 1,000개부터 가능한 화장품 OEM·ODM 전문 제조. ISO 22716, CGMP, EVE VEGAN 인증.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RTS COSMETIC">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="MOQ 1,000개부터 가능한 화장품 OEM·ODM 전문 제조. ISO 22716 · CGMP · EVE VEGAN 인증, 10개국 이상 수출.">
+<meta property="og:image" content="{{ url_for('static', filename='img/og.jpg', _external=True) }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="{{ request.base_url }}">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
