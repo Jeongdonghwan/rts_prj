@@ -8,9 +8,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from flask import Flask, Response, abort, redirect, render_template, request, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)  # nginx 뒤에서 https·도메인 기준으로 URL 생성
 app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
 app.config["INQUIRIES"] = Path(__file__).with_name("inquiries.jsonl")
 app.config["DB"] = Path(__file__).with_name("qna.db")
