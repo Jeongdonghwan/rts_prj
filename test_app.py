@@ -66,6 +66,15 @@ def test_site(tmp_path=None):
     assert c.post("/admin/qna/1", headers=ho, data={"action": "delete"}).status_code == 302
     assert c.get("/qna/1").status_code == 404
 
+    # 공지: 어드민만 등록, 목록 맨 위 고정, 수정
+    assert c.post("/admin", headers=h, data={"title": "휴무 안내", "body": "연휴 휴무"}).status_code == 403  # Origin 없음
+    assert c.post("/admin", headers=ho, data={"title": "휴무 안내", "body": "연휴 휴무"}).status_code == 302
+    page = c.get("/qna").get_data(as_text=True)
+    assert "휴무 안내" in page and page.index("휴무 안내") < page.index("비밀글입니다")
+    assert "RTS COSMETIC · " in c.get("/qna/3").get_data(as_text=True)  # 공지 작성자는 가리지 않음
+    assert c.post("/admin/qna/3", headers=ho, data={"action": "edit", "title": "수정된 공지", "body": "본문"}).status_code == 302
+    assert "수정된 공지" in c.get("/qna").get_data(as_text=True)
+
 
 if __name__ == "__main__":
     test_site()

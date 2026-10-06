@@ -16,14 +16,21 @@
     </form>
     {% else %}
     <header>
-      <h2>{{ post.title }}</h2>
-      <p>{{ post.name if admin else post.name[0] ~ '*' * (post.name|length - 1) }} · {{ post.created }}{% if post.pw_hash %} · 비밀글{% endif %}</p>
+      <h2>{% if post.notice %}<span class="tag on">공지</span> {% endif %}{{ post.title }}</h2>
+      <p>{{ post.name if admin or post.notice else post.name[0] ~ '*' * (post.name|length - 1) }} · {{ post.created }}{% if post.pw_hash %} · 비밀글{% endif %}</p>
     </header>
     <div class="body">{{ post.body }}</div>
     {% if post.answer %}
     <div class="answer"><b>RTS COSMETIC 답변</b> <small>{{ post.answered }}</small><div class="body">{{ post.answer }}</div></div>
     {% endif %}
-    {% if admin %}
+    {% if admin and post.notice %}
+    <form method="post" class="form" style="margin-top:32px">
+      <label class="full">공지 제목<input name="title" maxlength="100" required value="{{ post.title }}"></label>
+      <label class="full">공지 내용<textarea name="body" rows="8" maxlength="3000" required>{{ post.body }}</textarea></label>
+      <button class="btn" name="action" value="edit">공지 수정</button>
+      <button class="btn ghost" name="action" value="delete" onclick="return confirm('이 공지를 삭제할까요?')">공지 삭제</button>
+    </form>
+    {% elif admin %}
     <form method="post" class="form" style="margin-top:32px">
       <label class="full">답변 (비우고 저장하면 답변 삭제)<textarea name="answer" rows="6" maxlength="3000">{{ post.answer or '' }}</textarea></label>
       <button class="btn" name="action" value="answer">답변 저장</button>

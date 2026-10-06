@@ -53,7 +53,11 @@ def db():
     con.row_factory = sqlite3.Row
     con.execute("""CREATE TABLE IF NOT EXISTS posts (
         id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL,
-        pw_hash TEXT, created TEXT NOT NULL, answer TEXT, answered TEXT)""")
+        pw_hash TEXT, created TEXT NOT NULL, answer TEXT, answered TEXT, notice INTEGER NOT NULL DEFAULT 0)""")
+    try:  # 공지 컬럼이 없는 예전 DB 파일 보정
+        con.execute("ALTER TABLE posts ADD COLUMN notice INTEGER NOT NULL DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
     return con
 
 
@@ -77,6 +81,11 @@ def is_admin():
 
 def need_login():
     return Response("로그인이 필요합니다.", 401, {"WWW-Authenticate": 'Basic realm="RTS admin"'})
+
+
+def same_origin():
+    # Basic 인증은 브라우저가 자동으로 붙이므로, 다른 사이트에서 보낸 요청(CSRF)은 Origin으로 걸러냄
+    return urlparse(request.headers.get("Origin", "")).netloc == request.host
 
 
 @app.context_processor
@@ -125,13 +134,14 @@ def contact():
 @app.route("/qna")
 def qna():
     with closing(db()) as con:
-        total = con.execute("SELECT COUNT(*) FROM posts").fetchone()[0]
+        total = con.execute("SELECT COUNT(*) FROM posts WHERE notice = 0").fetchone()[0]
         pages = max(-(-total // PER_PAGE), 1)
         page = min(max(request.args.get("page", 1, type=int), 1), pages)
+        notices = con.execute("SELECT id, title, created FROM posts WHERE notice = 1 ORDER BY id DESC").fetchall()
         rows = con.execute(
             "SELECT id, name, title, pw_hash IS NOT NULL AS secret, created, answer IS NOT NULL AS answered "
-            "FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", (PER_PAGE, (page - 1) * PER_PAGE)).fetchall()
-    return render_template("qna.html", rows=rows, page=page, pages=pages, total=total)
+            "FROM posts WHERE notice = 0 ORDER BY id DESC LIMIT ? OFFSET ?", (PER_PAGE, (page - 1) * PER_PAGE)).fetchall()
+    return render_template("qna.html", rows=rows, notices=notices, page=page, pages=pages, total=total)
 
 
 @app.route("/qna/write", methods=["GET", "POST"])
@@ -165,14 +175,22 @@ def qna_view(post_id):
 
 # ----- 어드민 -----
 
-@app.route("/admin")
+@app.route("/admin", methods=["GET", "POST"])
 def admin():
     if not is_admin():
         return need_login()
+    if request.method == "POST":  # 공지 등록
+        if not same_origin():
+            abort(403)
+        title, body = request.form.get("title", "").strip()[:100], request.form.get("body", "").strip()[:3000]
+        if title and body:
+            with closing(db()) as con, con:
+                con.execute("INSERT INTO posts (name, title, body, created, notice) VALUES ('RTS COSMETIC', ?, ?, ?, 1)", (title, body, now()))
+        return redirect(url_for("admin"))
     path = app.config["INQUIRIES"]
     lines = path.read_text(encoding="utf-8").splitlines() if path.exists() else []
     with closing(db()) as con:
-        posts = con.execute("SELECT id, name, title, created, answer IS NOT NULL AS answered FROM posts ORDER BY id DESC").fetchall()
+        posts = con.execute("SELECT id, name, title, created, notice, answer IS NOT NULL AS answered FROM posts ORDER BY notice DESC, id DESC").fetchall()
     return render_template("admin.html", rows=[json.loads(line) for line in reversed(lines)], posts=posts)
 
 
@@ -182,13 +200,18 @@ def admin_qna(post_id):
         return need_login()
     post = get_post(post_id)
     if request.method == "POST":
-        # Basic 인증은 브라우저가 자동으로 붙이므로, 다른 사이트에서 보낸 요청(CSRF)은 Origin으로 걸러냄
-        if urlparse(request.headers.get("Origin", "")).netloc != request.host:
+        if not same_origin():
             abort(403)
+        action = request.form.get("action")
         with closing(db()) as con, con:
-            if request.form.get("action") == "delete":
+            if action == "delete":
                 con.execute("DELETE FROM posts WHERE id = ?", (post_id,))
                 return redirect(url_for("admin"))
+            if action == "edit":  # 공지 수정
+                title, body = request.form.get("title", "").strip()[:100], request.form.get("body", "").strip()[:3000]
+                if title and body:
+                    con.execute("UPDATE posts SET title = ?, body = ? WHERE id = ?", (title, body, post_id))
+                return redirect(url_for("admin_qna", post_id=post_id))
             answer = request.form.get("answer", "").strip()[:3000]
             con.execute("UPDATE posts SET answer = ?, answered = ? WHERE id = ?", (answer or None, now() if answer else None, post_id))
         return redirect(url_for("admin_qna", post_id=post_id))

@@ -3,17 +3,24 @@
 {% block content %}
 <section class="sec">
   <div class="wrap">
+    <div class="head"><h2 class="ko">공지 등록</h2><p>Q&amp;A 게시판 맨 위에 고정됩니다. 등록 후 제목을 눌러 수정·삭제할 수 있습니다.</p></div>
+    <form method="post" class="form" style="margin-bottom:90px">
+      <label class="full">제목<input name="title" maxlength="100" required placeholder="예: 추석 연휴 휴무 안내"></label>
+      <label class="full">내용<textarea name="body" rows="5" maxlength="3000" required></textarea></label>
+      <button class="btn full">공지 올리기</button>
+    </form>
+
     <div class="head"><h2 class="ko">Q&amp;A 게시판 ({{ posts|length }}건)</h2><p>제목을 누르면 답변을 달거나 글을 삭제할 수 있습니다.</p></div>
     <table class="board">
       <thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>상태</th></tr></thead>
       <tbody>
         {% for r in posts %}
         <tr>
-          <td>{{ r.id }}</td>
+          <td>{% if r.notice %}<span class="tag on">공지</span>{% else %}{{ r.id }}{% endif %}</td>
           <td class="t"><a href="{{ url_for('admin_qna', post_id=r.id) }}">{{ r.title }}</a></td>
           <td>{{ r.name }}</td>
           <td>{{ r.created[:10] }}</td>
-          <td>{% if r.answered %}<span class="tag on">답변완료</span>{% else %}<span class="tag">접수</span>{% endif %}</td>
+          <td>{% if r.notice %}{% elif r.answered %}<span class="tag on">답변완료</span>{% else %}<span class="tag">접수</span>{% endif %}</td>
         </tr>
         {% else %}
         <tr><td colspan="5" class="empty">등록된 글이 없습니다.</td></tr>

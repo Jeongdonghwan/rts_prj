@@ -12,6 +12,15 @@
     <table class="board">
       <thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>상태</th></tr></thead>
       <tbody>
+        {% for n in notices %}
+        <tr class="notice-row">
+          <td><span class="tag on">공지</span></td>
+          <td class="t"><a href="{{ url_for('qna_view', post_id=n.id) }}">{{ n.title }}</a></td>
+          <td>RTS COSMETIC</td>
+          <td>{{ n.created[:10] }}</td>
+          <td></td>
+        </tr>
+        {% endfor %}
         {% for r in rows %}
         <tr>
           <td>{{ r.id }}</td>
@@ -21,7 +30,7 @@
           <td>{% if r.answered %}<span class="tag on">답변완료</span>{% else %}<span class="tag">접수</span>{% endif %}</td>
         </tr>
         {% else %}
-        <tr><td colspan="5" class="empty">등록된 문의가 없습니다. 첫 문의를 남겨 주세요.</td></tr>
+        {% if not notices %}<tr><td colspan="5" class="empty">등록된 문의가 없습니다. 첫 문의를 남겨 주세요.</td></tr>{% endif %}
         {% endfor %}
       </tbody>
     </table>

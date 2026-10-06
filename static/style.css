@@ -291,3 +291,6 @@ a:hover .ph img { transform: scale(1.08); }
   .hero { padding-bottom: 110px; }
   .board th:nth-child(1), .board td:nth-child(1), .board th:nth-child(4), .board td:nth-child(4) { display: none; }
 }
+.board .notice-row { background: #f7faf8; }
+.board .notice-row td.t { font-weight: 600; }
+.post h2 .tag { vertical-align: middle; margin-right: 6px; font-size: 11px; }
