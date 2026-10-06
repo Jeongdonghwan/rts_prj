@@ -30,7 +30,7 @@ h1, h2, h3, p { margin: 0; }
 /* 히어로 */
 .hero { position: relative; display: grid; place-items: center; min-height: min(700px, calc(100vh - 100px)); padding: 80px 20px 150px;
   background: #16241d center/cover; color: #fff; text-align: center; }
-.hero::before, .sub-hero::before, .bleed::before { content: ""; position: absolute; inset: 0; background: rgba(16, 30, 24, .46); }
+.hero::before, .sub-hero::before, .bleed::before { content: ""; position: absolute; inset: 0; background: rgba(10, 20, 15, .38); }
 .bleed::before { background: rgba(28, 44, 36, .62); }
 .hero > div { position: relative; }
 .hero .since { font-size: 19px; margin-bottom: 18px; }
