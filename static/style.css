@@ -150,8 +150,8 @@ h1, h2, h3, p { margin: 0; }
 
 /* 하단 */
 .float { position: fixed; right: 28px; bottom: 28px; z-index: 30; width: 78px; height: 78px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--g); color: #fff; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(0, 0, 0, .25); }
-.float:hover { background: #3d5d4e; }
+  background: #fee500; color: #191919; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(0, 0, 0, .25); }
+.float:hover { background: #f5d900; }
 footer { background: #1b1b1b; color: #999; font-size: 12.5px; padding: 50px 0; line-height: 1.9; }
 footer .logo { color: #fff; margin-bottom: 18px; font-size: 22px; }
 footer .copy { margin-top: 14px; color: #666; font-family: var(--en); font-size: 11px; letter-spacing: .05em; }
@@ -228,7 +228,7 @@ a:hover .ph img { transform: scale(1.08); }
 .marquee span::after { content: "·"; margin-left: 68px; color: var(--g); }
 .marquee:hover div { animation-play-state: paused; }
 
-.float::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--g); z-index: -1; animation: pulse 2s ease-out infinite; }
+.float::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #fee500; z-index: -1; animation: pulse 2s ease-out infinite; }
 
 @media (max-width: 860px) {
   .lines { flex-wrap: wrap; }
