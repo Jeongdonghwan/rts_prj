@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% macro img(name) %}{{ url_for('static', filename='img/' ~ name ~ '.jpg') }}{% endmacro %}
+{% block content %}
+<section class="hero">
+  <div class="slides">{% for n in ['hero1', 'hero2', 'hero3'] %}<i style="background-image:url({{ img(n) }})"></i>{% endfor %}</div>
+  <div>
+    <p class="since">SINCE 2021 화장품 OEM·ODM 전문 제조</p>
+    <h1>스킨케어와 바디케어<br>코스메틱 전문 제조</h1>
+    <p class="sub">스킨케어·바디케어·베이스 메이크업 OEM/ODM<br>소량 1,000개부터 CGMP 인증 시설에서 제조</p>
+    <ul class="pills"><li>ISO 22716</li><li>CGMP</li><li>EVE VEGAN</li></ul>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap">
+    <div><em>MOQ</em><p><strong data-count="1000">1,000</strong><small>개부터</small></p><span>소량 제조 가능</span></div>
+    <div><em>EXPORT</em><p><strong data-count="10">10</strong><small>개국 이상</small></p><span>미국 · 일본 · 중국 · 동남아 등</span></div>
+    <div><em>CERTIFIED</em><p><strong data-count="3">3</strong><small>종 인증</small></p><span>ISO 22716 · CGMP · EVE VEGAN</span></div>
+    <div><em>SINCE</em><p><strong>2021</strong><small>년 설립</small></p><span>인천 공장 · 연구소 운영</span></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head">
+      <h2><b>RTS COSMETIC</b> SINCE 2021</h2>
+      <p>정확한 원료와 고객사와의 약속에서 시작합니다.<br>분야별 책임 연구원의 노하우와 최신 설비로 품질을 보증합니다.</p>
+    </div>
+    <div class="cards">
+      <a href="{{ url_for('page', page='facility') }}"><span class="ph"><img src="{{ img('rnd') }}" alt="" loading="lazy"></span><h3>Incheon R&amp;D Center</h3><p>연구실 · 신상품 기획 · 브랜드 기획</p></a>
+      <a href="{{ url_for('page', page='facility') }}"><span class="ph"><img src="{{ img('plant') }}" alt="" loading="lazy"></span><h3>Incheon Factory</h3><p>제조실 · 충진실 · 포장실 · 인쇄실</p></a>
+      <a href="{{ url_for('page', page='facility') }}"><span class="ph"><img src="{{ img('qc') }}" alt="" loading="lazy"></span><h3>Quality Control</h3><p>미생물검사실 · 품질검사실</p></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="head">
+    <p class="en">PRODUCT LINES</p>
+    <h2 class="ko">전문 제조 라인</h2>
+  </div>
+  <div class="lines">
+    {% for name, title, desc in [
+      ('line-skin', '스킨케어 라인', '앰플, 세럼, 크림, 에멀전 등 기초 제품 전반'),
+      ('line-body', '바디케어 라인', '바디로션, 워시, 베이비·키즈 제품'),
+      ('line-base', '베이스 메이크업 라인', '피부 표현을 위한 베이스 제형'),
+      ('line-mask', '마스크팩 라인', '전용 제조 설비 보유, 1일 8시간 가동')] %}
+    <a href="{{ url_for('page', page='oem') }}"><i class="bg" style="background-image:url({{ img(name) }})"></i><h3>{{ title }}</h3><p>{{ desc }}</p><span class="btn line">DETAIL VIEW</span></a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="quote" style="background-image:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url({{ img('cream') }})">
+  <div class="mark">“</div>
+  <p>알티에스코스메틱은 스킨케어와 바디케어, 베이스 메이크업을 전문으로 제조하며 폭넓은 시스템을 갖추어 고객사 니즈에 맞는 다양한 제품 제조가 가능합니다.</p>
+  <a class="btn" href="{{ url_for('contact') }}">CONTACT US</a>
+</section>
+
+<section class="sec gray"><div class="wrap">{% include "_faq.html" %}</div></section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head">
+      <h2><b>PROMOTION</b> FOR NEW CLIENTS</h2>
+      <p>처음 시작하는 브랜드도 용기 재고 부담 없이 진행할 수 있습니다.</p>
+    </div>
+    <div class="duo">
+      <a href="{{ url_for('page', page='oem') }}" style="background-image:url({{ img('promo1') }})">
+        <p class="en"><b>SMALL</b> BATCH</p>
+        <small>MOQ 1,000</small>
+        <h3>소량 제조 <span>자세히 보기</span></h3>
+        <p>별도의 소량 생산 시스템으로 1,000개부터 제조합니다.</p>
+      </a>
+      <a href="{{ url_for('page', page='oem') }}" style="background-image:url({{ img('promo2') }})">
+        <p class="en"><b>READY</b> PACKAGE</p>
+        <small>Container &amp; Printing</small>
+        <h3>보유 용기 · 자체 인쇄 <span>자세히 보기</span></h3>
+        <p>보유 용기와 자체 인쇄 설비, 다양한 제형 데이터로 빠르게 샘플링합니다.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="bleed" style="background-image:url({{ img('ingredients') }})">
+  <div>
+    <h2>Best Quality Ingredients</h2>
+    <p>최고 등급의 자연 유래 원료만을 사용하여 피부 고민에 맞는 자연 친화 화장품을 만듭니다.<br>EWG 0·1·2(그린등급) 원료로 안정성 높은 원료만을 취급합니다.</p>
+    <a class="btn line" href="{{ url_for('page', page='about') }}">EXPLORE MORE</a>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head">
+      <h2><b>TURN-KEY</b> PROCESS</h2>
+      <p>제품 개발부터 완제품 배송까지 한 번에 진행합니다.</p>
+    </div>
+    <ol class="process">{% for s in turnkey %}<li><i>{{ '%02d' % loop.index }}</i>{{ s }}</li>{% endfor %}</ol>
+  </div>
+</section>
+
+<section class="sec gray">
+  <div class="wrap">
+    <div class="head">
+      <h2><b>EXPORT</b> TO 10+ COUNTRIES</h2>
+      <p>총 10개 국가 이상에 수출하고 있습니다.</p>
+    </div>
+  </div>
+  <div class="marquee"><div>{% for _ in range(4) %}{% for c in countries %}<span>{{ c }}</span>{% endfor %}{% endfor %}</div></div>
+</section>
+{% endblock %}

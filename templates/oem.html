@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}OEM/ODM | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sub-hero" style="background-image:url({{ url_for('static', filename='img/hero1.jpg') }})"><p class="en">OEM / ODM</p><h1>기획부터 배송까지, 한 번에</h1></section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head">
+      <h2><b>TURN-KEY</b> SOLUTION</h2>
+      <p>스킨케어와 바디케어, 베이스 메이크업을 전문으로 제조하며<br>폭넓은 시스템을 갖추어 고객사 니즈에 맞는 다양한 제품 제조가 가능합니다.</p>
+    </div>
+    <ol class="process">{% for s in turnkey %}<li><i>{{ '%02d' % loop.index }}</i>{{ s }}</li>{% endfor %}</ol>
+  </div>
+</section>
+
+<section class="sec gray">
+  <div class="wrap">
+    <div class="head"><h2><b>OEM</b> PROCESS</h2><p>샘플 의뢰부터 제조 시작까지의 진행 순서입니다.</p></div>
+    <ol class="process three">
+      {% for s in ['타겟 제품 전달 및 샘플 의뢰서 작성', '견적서 컨펌', '1차 샘플 수령', '진행 여부 검토 후 OEM 계약', '샘플 수정 작업', '샘플 최종 컨펌 후 제조 시작'] %}
+      <li><i>{{ '%02d' % loop.index }}</i>{{ s }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head"><h2><b>PROMOTION</b> FOR NEW CLIENTS</h2></div>
+    <dl class="rows">
+      <div><dt>01</dt><dd><strong>MOQ 1,000개부터</strong><br>소량 제조의 경우 MOQ는 1,000개부터 가능합니다.</dd></div>
+      <div><dt>02</dt><dd><strong>보유 용기 · 자체 인쇄 · 빠른 샘플링</strong><br>회사 보유 용기와 자체 인쇄 설비를 갖춘 시스템으로 용기 재고 부담 없이 소량 제조가 가능합니다. 다양한 제형의 데이터를 보유하고 있어 빠른 샘플링이 가능하며, 별도의 소량 생산 시스템으로 폭넓은 생산 계획을 세울 수 있습니다.</dd></div>
+      <div><dt>03</dt><dd><strong>용기 발주 부담 해소</strong><br>대부분의 화장품 용기 발주 시 MOQ가 5,000~10,000개입니다. 높은 수량이 부담스러운 고객사는 당사 보유 용기를 사용하시면 소량 진행을 도와드립니다.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="bleed" style="background-image:url({{ url_for('static', filename='img/ingredients.jpg') }})">
+  <div><h2>타겟 제품만 알려주세요</h2><p>샘플 의뢰부터 함께 시작합니다.</p><a class="btn line" href="{{ url_for('contact') }}">CONTACT US</a></div>
+</section>
+{% endblock %}

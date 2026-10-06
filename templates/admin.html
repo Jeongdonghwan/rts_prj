@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}관리자 | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sec">
+  <div class="wrap">
+    <div class="head"><h2 class="ko">Q&amp;A 게시판 ({{ posts|length }}건)</h2><p>제목을 누르면 답변을 달거나 글을 삭제할 수 있습니다.</p></div>
+    <table class="board">
+      <thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>상태</th></tr></thead>
+      <tbody>
+        {% for r in posts %}
+        <tr>
+          <td>{{ r.id }}</td>
+          <td class="t"><a href="{{ url_for('admin_qna', post_id=r.id) }}">{{ r.title }}</a></td>
+          <td>{{ r.name }}</td>
+          <td>{{ r.created[:10] }}</td>
+          <td>{% if r.answered %}<span class="tag on">답변완료</span>{% else %}<span class="tag">접수</span>{% endif %}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="empty">등록된 글이 없습니다.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="head" style="margin-top:90px"><h2 class="ko">OEM·ODM 문의 ({{ rows|length }}건)</h2></div>
+    {% for r in rows %}
+    <div class="notice">
+      <strong>{{ r.name }}</strong> {% if r.company %}· {{ r.company }}{% endif %} <small>· {{ r.at }}</small><br>
+      {{ r.phone }} {{ r.email }} · {{ r.category }} {% if r.quantity %}· {{ r.quantity }}{% endif %}
+      <p style="white-space:pre-wrap;margin-top:.8em">{{ r.message }}</p>
+    </div>
+    {% else %}
+    <p class="center">아직 접수된 문의가 없습니다.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

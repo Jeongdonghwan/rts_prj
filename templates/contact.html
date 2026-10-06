@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}CONTACT | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sub-hero" style="background-image:url({{ url_for('static', filename='img/hero1.jpg') }})"><p class="en">CONTACT</p><h1>OEM·ODM 문의</h1></section>
+
+<section class="sec">
+  <div class="wrap">
+    {% if request.args.get('sent') %}
+    <p class="notice">문의가 접수되었습니다. 확인 후 연락드리겠습니다.</p>
+    {% else %}
+    {% if error %}<p class="notice err" role="alert">{{ error }}</p>{% endif %}
+    <form method="post" class="form">
+      <label>회사명<input name="company" maxlength="100" value="{{ form.company }}"></label>
+      <label>담당자명 *<input name="name" maxlength="50" required value="{{ form.name }}"></label>
+      <label>연락처<input name="phone" type="tel" maxlength="30" value="{{ form.phone }}"></label>
+      <label>이메일<input name="email" type="email" maxlength="100" value="{{ form.email }}"></label>
+      <label>제품 유형
+        <select name="category">
+          {% for c in ['스킨케어', '바디케어', '베이스 메이크업', '마스크팩', '기타'] %}<option {% if form.category == c %}selected{% endif %}>{{ c }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>예상 수량<input name="quantity" maxlength="30" placeholder="예: 1,000개" value="{{ form.quantity }}"></label>
+      <label class="full">문의 내용 *<textarea name="message" rows="7" maxlength="3000" required placeholder="타겟 제품, 원하는 제형, 희망 일정 등을 적어주세요.">{{ form.message }}</textarea></label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="full"><input type="checkbox" name="agree" value="1" required> 문의 응대를 위한 개인정보(담당자명, 연락처, 이메일) 수집·이용에 동의합니다.</label>
+      <button class="btn full">문의 보내기</button>
+    </form>
+    {% endif %}
+    <p class="center" style="color:#777">E-mail <a href="mailto:{{ company.email }}">{{ company.email }}</a> &nbsp;|&nbsp; {{ company.address }}</p>
+  </div>
+</section>
+
+<section class="sec gray"><div class="wrap">{% include "_faq.html" %}</div></section>
+{% endblock %}

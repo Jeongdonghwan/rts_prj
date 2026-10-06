@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Q&A | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sub-hero" style="background-image:url({{ url_for('static', filename='img/hero1.jpg') }})"><p class="en">Q&amp;A</p><h1>문의 게시판</h1></section>
+
+<section class="sec">
+  <div class="wrap post">
+    {% if locked %}
+    <form method="post" class="lockbox">
+      <span class="lock big"></span>
+      <h2>비밀글입니다</h2>
+      <p>작성할 때 설정한 비밀번호를 입력해 주세요.</p>
+      {% if error %}<p class="notice err" role="alert">{{ error }}</p>{% endif %}
+      <input name="password" type="password" maxlength="50" required autofocus aria-label="비밀번호">
+      <button class="btn">확인</button>
+    </form>
+    {% else %}
+    <header>
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.name if admin else post.name[0] ~ '*' * (post.name|length - 1) }} · {{ post.created }}{% if post.pw_hash %} · 비밀글{% endif %}</p>
+    </header>
+    <div class="body">{{ post.body }}</div>
+    {% if post.answer %}
+    <div class="answer"><b>RTS COSMETIC 답변</b> <small>{{ post.answered }}</small><div class="body">{{ post.answer }}</div></div>
+    {% endif %}
+    {% if admin %}
+    <form method="post" class="form" style="margin-top:32px">
+      <label class="full">답변 (비우고 저장하면 답변 삭제)<textarea name="answer" rows="6" maxlength="3000">{{ post.answer or '' }}</textarea></label>
+      <button class="btn" name="action" value="answer">답변 저장</button>
+      <button class="btn ghost" name="action" value="delete" onclick="return confirm('이 글을 삭제할까요?')">글 삭제</button>
+    </form>
+    {% endif %}
+    {% endif %}
+    <p class="center"><a class="btn ghost" href="{{ url_for('admin') if admin else url_for('qna') }}">목록</a></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+<div class="faq">
+  <h2>FAQ of<br><b>RTS Cosmetic's Processing</b></h2>
+  {% for q, a in faq %}<details {% if loop.index <= 2 %}open{% endif %}><summary><i>{{ '%02d' % loop.index }}</i>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+  <p class="more">찾는 답이 없으신가요? <a href="{{ url_for('qna') }}">Q&amp;A 게시판에 문의 남기기 →</a></p>
+</div>

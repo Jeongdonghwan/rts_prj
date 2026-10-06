@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}ABOUT US | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sub-hero" style="background-image:url({{ url_for('static', filename='img/hero1.jpg') }})"><p class="en">ABOUT US</p><h1>알티에스코스메틱</h1></section>
+
+<section class="sec">
+  <div class="wrap split">
+    <div>
+      <h2>정확한 기준,<br>전문 기술과 설비</h2>
+      <p>2021년 설립 이후 ISO 22716, CGMP, EVE VEGAN 인증을 갖춘 인천 공장과 연구소에서 스킨케어, 바디케어, 베이스 메이크업을 제조하고 있습니다.</p>
+    </div>
+    <dl class="rows">
+      <div><dt>01</dt><dd><strong>제품에 대한 정확한 기준</strong><br>화장품 제조는 믿을 수 있는 정확한 원료, 그리고 고객사와의 약속을 지키는 데에서 시작합니다.</dd></div>
+      <div><dt>02</dt><dd><strong>제품에 대한 전문 기술 &amp; 설비</strong><br>분야별 책임 연구원의 전문적인 노하우와 최신 설비를 바탕으로 품질을 보증합니다.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec gray">
+  <div class="wrap">
+    <div class="head"><h2><b>CORPORATE</b> HISTORY</h2></div>
+    <dl class="rows">
+      <div><dt>2025</dt><dd><b>12</b>CGMP 갱신<br><b>07</b>ISO 22716 갱신 (Bureau Veritas)<br><b>03</b>EVE VEGAN 갱신</dd></div>
+      <div><dt>2022</dt><dd><b>09</b>CGMP 우수 화장품 제조 및 품질관리기준 적합업소 인증 획득<br><b>04</b>EVE VEGAN 공장 인증<br><b>03</b>주식회사 알티에스코스메틱 법인 설립</dd></div>
+      <div><dt>2021</dt><dd><b>12</b>ISO 22716 인증<br><b>10</b>알티에스코스메틱 설립 (인천광역시 남동구)</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head"><h2><b>CERTIFICATION</b></h2><p>국내외 기준에 맞춘 제조·품질 관리 체계를 갖추고 있습니다.</p></div>
+    <ol class="process three">
+      {% for name, desc in certs %}<li><i>{{ name }}</i><p>{{ desc }}</p></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="sec gray">
+  <div class="wrap center">
+    <div class="head"><h2><b>LOCATION</b></h2><p>{{ company.address }}</p></div>
+    <a class="btn" href="https://map.naver.com/p/search/{{ '인천광역시 남동구 남동서로270번길 16' | urlencode }}" target="_blank" rel="noopener">네이버 지도에서 보기</a>
+  </div>
+</section>
+{% endblock %}

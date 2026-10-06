@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Q&A | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sub-hero" style="background-image:url({{ url_for('static', filename='img/hero1.jpg') }})"><p class="en">Q&amp;A</p><h1>문의 게시판</h1></section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="board-top">
+      <p>전체 <b>{{ total }}</b>건 · 비밀번호를 설정하면 비밀글로 등록됩니다.</p>
+      <a class="btn" href="{{ url_for('qna_write') }}">글쓰기</a>
+    </div>
+    <table class="board">
+      <thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>상태</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r.id }}</td>
+          <td class="t"><a href="{{ url_for('qna_view', post_id=r.id) }}">{% if r.secret %}<span class="lock" aria-label="비밀글"></span>비밀글입니다.{% else %}{{ r.title }}{% endif %}</a></td>
+          <td>{{ r.name[0] }}{{ '*' * (r.name|length - 1) }}</td>
+          <td>{{ r.created[:10] }}</td>
+          <td>{% if r.answered %}<span class="tag on">답변완료</span>{% else %}<span class="tag">접수</span>{% endif %}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="empty">등록된 문의가 없습니다. 첫 문의를 남겨 주세요.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if pages > 1 %}
+    <nav class="pager">{% for p in range(1, pages + 1) %}<a href="{{ url_for('qna', page=p) }}" {% if p == page %}class="on"{% endif %}>{{ p }}</a>{% endfor %}</nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

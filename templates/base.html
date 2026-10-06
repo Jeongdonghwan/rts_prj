@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}RTS COSMETIC | 화장품 OEM·ODM{% endblock %}</title>
+<meta name="description" content="알티에스코스메틱 - MOQ 1,000개부터 가능한 화장품 OEM·ODM 전문 제조. ISO 22716, CGMP, EVE VEGAN 인증.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='main.js') }}" defer></script>
+</head>
+<body>
+<div class="topbar"><div class="wrap"><span><b>OEM</b> · <b>ODM</b> &nbsp;COSMETIC MANUFACTURER</span><span>INCHEON, KOREA</span></div></div>
+<header class="gnb">
+  <div class="wrap">
+    {# 로고 파일 받으면 <img>로 교체 #}
+    <a class="logo" href="{{ url_for('index') }}">RTS <b>COSMETIC</b></a>
+    <nav>
+      {% for slug, label in [('about','ABOUT US'), ('oem','OEM/ODM'), ('facility','R&D · FACTORY')] %}
+      <a href="{{ url_for('page', page=slug) }}" {% if request.path == '/' ~ slug %}class="on"{% endif %}>{{ label }}</a>
+      {% endfor %}
+      <a href="{{ url_for('qna') }}" {% if request.path.startswith('/qna') %}class="on"{% endif %}>Q&amp;A</a>
+      <a href="{{ url_for('contact') }}" {% if request.path == '/contact' %}class="on"{% endif %}>CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main>{% block content %}{% endblock %}</main>
+
+{% if request.path in ('/', '/about', '/oem', '/facility') %}<a class="float" href="{{ url_for('contact') }}">문의하기</a>{% endif %}
+
+<footer>
+  <div class="wrap">
+    <div class="logo">RTS <b>COSMETIC</b></div>
+    <p>
+      {{ company.name }} &nbsp;|&nbsp; 대표 {{ company.ceo }} &nbsp;|&nbsp; 사업자등록번호 {{ company.biz_no }}<br>
+      {{ company.address }}<br>
+      E-mail <a href="mailto:{{ company.email }}">{{ company.email }}</a>
+    </p>
+    <p class="copy">© 2025 RTS COSMETIC. ALL RIGHTS RESERVED.</p>
+  </div>
+</footer>
+</body>
+</html>

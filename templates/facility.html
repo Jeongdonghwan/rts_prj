@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}R&D · FACTORY | RTS COSMETIC{% endblock %}
+{% block content %}
+<section class="sub-hero" style="background-image:url({{ url_for('static', filename='img/factory.jpg') }})"><p class="en">R&amp;D CENTER · FACTORY</p><h1>연구부터 생산, 보관까지</h1></section>
+
+<section class="sec">
+  <div class="wrap split">
+    <img src="{{ url_for('static', filename='img/rnd.jpg') }}" alt="" loading="lazy">
+    <div>
+      <h2>인천연구소</h2>
+      <dl class="rows">
+        <div><dt class="ko">연구시설</dt><dd>연구실</dd></div>
+        <div><dt class="ko">R&amp;D Center</dt><dd>신상품 기획 / 브랜드 기획</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="sec gray">
+  <div class="wrap split">
+    <div>
+      <h2>인천공장</h2>
+      <dl class="rows">
+        <div><dt class="ko">연구시설</dt><dd>연구실 / 미생물검사실 / 품질검사실</dd></div>
+        <div><dt class="ko">제조시설</dt><dd>제조실 / 충진실 / 포장실 / 인쇄실</dd></div>
+        <div><dt class="ko">보관시설</dt><dd>원료창고 / 자재창고 / 물류창고</dd></div>
+      </dl>
+    </div>
+    <img src="{{ url_for('static', filename='img/plant.jpg') }}" alt="" loading="lazy">
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="head"><h2><b>PRODUCTION</b> FACILITIES &amp; MACHINERY</h2></div>
+    <dl class="rows">
+      <div><dt class="ko">보유 설비</dt><dd>가마, Disper Mixer, 공기압축기, 자외선살균기, 충진기, 튜브 기계 등</dd></div>
+      <div><dt class="ko">마스크팩 제조 라인</dt><dd>1일 8시간 가동 · 기초라인 제조 별도 보유</dd></div>
+      <div><dt class="ko">물류창고</dt><dd>완제품 보관 및 출고</dd></div>
+    </dl>
+  </div>
+</section>
+{% endblock %}
